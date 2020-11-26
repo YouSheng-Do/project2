@@ -31,7 +31,7 @@ int main(int argc,char* argv[]){
     string s;
     int battery;
     int max_battery;
-    file_out.open("ans.path");
+    file_out.open("final.path");
     file.open(argv[1]);
 
     file>>row;
@@ -115,15 +115,15 @@ int main(int argc,char* argv[]){
             if(finding==false)
                 finish = true;
         }
-        while(finding){
-            if(BFS_tail[current.y-1][current.x]!=-1&&BFS_tail[current.y-1][current.x]<BFS_tail[current.y][current.x]){
-                board[current.y][current.x] = '2';
-                current.y--;
-                battery--;
-                }
-            else if(BFS_tail[current.y][current.x+1]!=-1&&BFS_tail[current.y][current.x+1]<BFS_tail[current.y][current.x]){
+        while(finding){     //  right  up  left  down
+            if(BFS_tail[current.y][current.x+1]!=-1&&BFS_tail[current.y][current.x+1]<BFS_tail[current.y][current.x]){
                 board[current.y][current.x] = '2';
                 current.x++;
+                battery--;
+                }
+            else if(BFS_tail[current.y-1][current.x]!=-1&&BFS_tail[current.y-1][current.x]<BFS_tail[current.y][current.x]){
+                board[current.y][current.x] = '2';
+                current.y--;
                 battery--;
                 }
             else if(BFS_tail[current.y+1][current.x]!=-1&&BFS_tail[current.y+1][current.x]<BFS_tail[current.y][current.x]){
@@ -145,7 +145,7 @@ int main(int argc,char* argv[]){
         step++;
         ans[step] = current;
         }
-        while(farrest){
+        while(farrest){ //  left  down  right  up
             if(board[current.y][current.x-1]=='0'){
                 board[current.y][current.x] = '2';
                 current.x--;
@@ -181,15 +181,15 @@ int main(int argc,char* argv[]){
             step++;
             ans[step] = current;
         }
-        while(reset){
+        while(reset){// down right up left
             if(current.y==recharge.y&&current.x==recharge.x){
                 reset = false;
                 battery = max_battery;
                 break;
             }
-            if(BFS_head[current.y-1][current.x]<BFS_head[current.y][current.x]&&BFS_head[current.y-1][current.x]!=-1){
+            if(BFS_head[current.y+1][current.x]<BFS_head[current.y][current.x]&&BFS_head[current.y+1][current.x]!=-1){
                 board[current.y][current.x] = '2';
-                current.y--;
+                current.y++;
                 battery--;
                 }
             else if(BFS_head[current.y][current.x+1]<BFS_head[current.y][current.x]&&BFS_head[current.y][current.x+1]!=-1){
@@ -197,9 +197,9 @@ int main(int argc,char* argv[]){
                 current.x++;
                 battery--;
                 }
-            else if(BFS_head[current.y+1][current.x]<BFS_head[current.y][current.x]&&BFS_head[current.y+1][current.x]!=-1){
+            else if(BFS_head[current.y-1][current.x]<BFS_head[current.y][current.x]&&BFS_head[current.y-1][current.x]!=-1){
                 board[current.y][current.x] = '2';
-                current.y++;
+                current.y--;
                 battery--;
                 }
             else if(BFS_head[current.y][current.x-1]<BFS_head[current.y][current.x]&&BFS_head[current.y][current.x-1]!=-1){
